@@ -17,7 +17,10 @@
 .profile-container
 {
 	background-color: lightgray;
-	border-bottom: #104284 solid 2px;
+	/* border-left: 1px #104284 solid;
+	border-right: 1px #104284 solid;
+	border-top: 1px lightgray solid; */
+	border: #104284 solid 2px;
 }
 .person-container
 {
@@ -121,7 +124,7 @@ nav
 	padding: 0 1rem;
 }
 
-.news-link
+.heading-link
 {
 	color: white;
 }

@@ -171,7 +171,7 @@ function processNews(responseXML)
 		}
 		console.log('newsItem:', newsItem);
 		innerHTML += '<div class="person-container">';
-		innerHTML += 	'<div class="sub-heading-container"><a class="news-link" href="' + newsItem.linkField + '">' + newsItem.titleField + '</a></div>\n';
+		innerHTML += 	'<div class="sub-heading-container"><a class="heading-link" href="' + newsItem.linkField + '">' + newsItem.titleField + '</a></div>\n';
 		innerHTML += 	'<div class="profile-container"><p>' + newsItem.descriptionField + '</p></div>';
 		innerHTML += '</div>';
 		innerHTML += '<div class="spacer"></div>';
@@ -226,7 +226,7 @@ function processNotices(responseXML)
 		}
 		console.log('newsItem:', newsItem);
 		innerHTML += '<div class="person-container">';
-		innerHTML += 	'<div class="sub-heading-container"><a href="' + newsItem.linkField + '">' + newsItem.titleField + '</a></div>\n';
+		innerHTML += 	'<div class="sub-heading-container"><a class="heading-link" href="' + newsItem.linkField + '">' + newsItem.titleField + '</a></div>\n';
 		innerHTML += 	'<div class="profile-container"><p>' + newsItem.descriptionField + '</p></div>';
 		innerHTML += '</div>';
 		innerHTML += '<div class="spacer"></div>';
