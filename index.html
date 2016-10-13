@@ -1,17 +1,80 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta charset="UTF-8">
-		<link rel='stylesheet' type='text/css' href='style.css'>
-		<script src="script.js"></script> 
+		<meta charset='utf-8'>
+		<title>Some Webpage</title>
+		<link rel='stylesheet' href='style.css'/>
+		<script type='text/javascript' src='script.js'></script>
+		<script>
+			window.onload = onWindowLoaded;
+		</script>
 	</head>
 	<body>
-		<table>
-			<tr><th>Help!</th></tr>
-			<tr><td>Nope!</td></tr>
-		</table>
-		<div>
+		<header id='header'>
+			<img class='logo' src='logo.svg'/>
+			<nav>
+				<span class="nav-link">Home</span>
+				<span class="nav-link">Courses</span>
+				<span class="nav-link">People</span>
+				<span class="nav-link">News</span>
+				<span class="nav-link">Notices</span>
+				<span class="nav-link">Guest Book</span>
+			</nav>
+			<div id='slimMenuContainer'>
+				<div id='slimMenu'>&#9776;</div>
+				<div id='slimMenuItemContainer'>
+					<div class='slimMenuItem'><span class="nav-link">Home</span></div>
+					<div class='slimMenuItem'><span class="nav-link">Courses</span></div>
+					<div class='slimMenuItem'><span class="nav-link">People</span></div>
+					<div class='slimMenuItem'><span class="nav-link">News</span></div>
+					<div class='slimMenuItem'><span class="nav-link">Notices</span></div>
+					<div class='slimMenuItem'><span class="nav-link">Guest Book</span></div>
+				</div>
+			</div>
+		</header>
 		
-		</div>
+		<section id='sectionHome'>
+			<h1>Home</h1>
+			<div class='staticContent'>
+				<p>Welcome to New Zealand's leading computer science department. We pride ourselves on the excellence of our staff and our students.</p>
+				<div><img src='home.jpg'/></div>
+			</div>
+		</section>
+		
+		<section id='sectionCourses'>
+			<h1>Courses</h1>
+			<div class='dynamicContent'></div>
+		</section>
+		
+		<section id='sectionPeople'>
+			<h1>People</h1>
+			<div class='dynamicContent'></div>
+		</section>
+		
+		<section id='sectionNews'>
+			<h1>News</h1>
+			<div class='dynamicContent'></div>
+		</section>
+		
+		<section id='sectionNotices'>
+			<h1>Notices</h1>
+			<div class='dynamicContent'></div>
+		</section>
+		
+		<section id='sectionGuestBook'>
+			<h1>Guest Book</h1>
+			<div class='staticContent'>
+				<form class="form-comment">
+					<div>
+						<textarea id="post-content"></textarea>
+					</div>
+					<div>
+						<input id="post-name" type="text">
+					</div>
+					<button type="button" onclick="postComment()">Post!</button>
+				</form>
+			</div>
+			<div class='dynamicContent'></div>
+		</section>
 	</body>
-<html>
+</html>
