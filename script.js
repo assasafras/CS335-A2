@@ -22,7 +22,7 @@ colours =
 redsoxService = 
 {
 	baseURL 	 : 'http://redsox.tcs.auckland.ac.nz/ups/UniProxService.svc/',
-	comment 	 : new service('comment?name=', 'POST', makeRequestPostComment),
+	comment 	 : new service('comment?name=', 'POST'),
 	courses 	 : new service('courses', 'GET', makeRequestCourses),
 	htmlcomments : new service('htmlcomments', 'GET', makeRequestGuestBook),
 	id 			 : new service('id', 'GET' ),
@@ -35,6 +35,15 @@ redsoxService =
 	user 		 : new service('user', 'GET' ),
 	vcard 		 : new service('vcard', 'GET' ),
 	version 	 : new service('version', 'GET' )
+}
+
+function handleTextBoxClicked(elementID, defaultText)
+{
+	var target = document.getElementById(elementID);
+	if (target.value.toLowerCase() === defaultText.toLowerCase())
+	{
+		target.value = "";
+	}
 }
 
 function makeRequestCourses()
@@ -67,11 +76,6 @@ function processCourses(responseText)
 	}
 	var dynamicContent = getDynamicContentOfSection(section.courses)
 	dynamicContent.innerHTML = innerHTML;
-}
-
-function makeRequestPostComment()
-{
-	
 }
 
 function makeRequestPeople()

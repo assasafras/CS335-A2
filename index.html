@@ -66,10 +66,10 @@
 			<div class='staticContent'>
 				<form class="form-comment">
 					<div>
-						<textarea id="post-content"></textarea>
+						<textarea id="post-content" onclick="handleTextBoxClicked('post-content', 'Type your post here!')">Type your post here!</textarea>
 					</div>
 					<div>
-						<input id="post-name" type="text">
+						<input value="Name" id="post-name" type="text" onclick="handleTextBoxClicked('post-name', 'Name')">
 					</div>
 					<button type="button" onclick="postComment()">Post!</button>
 				</form>
