@@ -1,3 +1,28 @@
+.profile-image
+{
+	display: inline-block;
+    padding: 5px 5px 0px 5px;
+}
+
+.spacer
+{
+	height: 3rem;
+}
+
+.profile-details
+{
+	display: inline-block;
+}
+
+.profile-container
+{
+	background-color: lightgray;
+	border-bottom: #104284 solid 2px;
+}
+.person-container
+{
+	background-color: #104284;
+}
 #post-content
 {
 	width: 30%;
@@ -96,10 +121,17 @@ nav
 	padding: 0 1rem;
 }
 
-.sub-heading
+.news-link
 {
-	border-bottom: #104284 1px solid;
-	background-color: #CCC;
+	color: white;
+}
+
+.sub-heading-container
+{
+	background-color: #104284;
+	font-size: large;
+	color: white;
+	padding: 1rem 5px;
 }
 
 .nav-link

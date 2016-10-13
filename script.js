@@ -99,8 +99,22 @@ function processPeople(responseText)
 	for (person of people)
 	{
 		var fullname = person.firstname + ' ' + person.lastname;
-		innerHTML += '<h2>' + fullname + '</h2>\n';
-		// innerHTML += '<p>' + course.description + '</p>\n';
+		var fullTitle = (person.title == undefined) ? fullname : person.title + " " + fullname;
+		var email = person.emailAddresses[0];
+		
+		var imageID = person.imageId;
+		if (imageID != undefined)
+			imageURL = 'https://www.cs.auckland.ac.nz/people/imageraw/' + person.profileUrl[0] + '/' + person.imageId + '/smallest';
+		else
+			imageURL = 'https://www.cs.auckland.ac.nz/static/g5Km3OjLZuWCA8w7PdOyS4j603aTN0QC7X2gk6kRhEs.png'
+		innerHTML += '<div class="person-container">'
+		innerHTML += 	'<div class="sub-heading-container">' + fullTitle + '</div>\n';
+		innerHTML += 	'<div class="profile-container">'
+		innerHTML += 		'<div class="profile-image"><img src=' + imageURL + '>'+ '</div>\n';
+		innerHTML += 		'<div class="profile-details"><p>Phone: ' + person.extn + '</p><p>Email: <a href="mailto:' + email + '">' + email + '</a></p></div>'
+		innerHTML += 	'</div>'
+		innerHTML += '</div>'
+		innerHTML += '<div class="spacer"></div>'
 		// innerHTML += '<p>' + course.subject.points + '</p>\n';
 		// if(course.prerequisite !== undefined)
 			// innerHTML += '<p>' + course.prerequisite + '</p>\n';
@@ -156,8 +170,11 @@ function processNews(responseXML)
 			newsItem[field.nodeName] = field.innerHTML;
 		}
 		console.log('newsItem:', newsItem);
-		innerHTML += '<div class="sub-heading">\n<h2><a href="' + newsItem.linkField + '">' + newsItem.titleField + '</a></h2></div>\n';
-		innerHTML += '<p>' + newsItem.descriptionField + '</p>';
+		innerHTML += '<div class="person-container">';
+		innerHTML += 	'<div class="sub-heading-container"><a class="news-link" href="' + newsItem.linkField + '">' + newsItem.titleField + '</a></div>\n';
+		innerHTML += 	'<div class="profile-container"><p>' + newsItem.descriptionField + '</p></div>';
+		innerHTML += '</div>';
+		innerHTML += '<div class="spacer"></div>';
 	}
 	
 	var dynamicContent = getDynamicContentOfSection(section.news)
@@ -208,8 +225,11 @@ function processNotices(responseXML)
 			newsItem[field.nodeName] = field.innerHTML;
 		}
 		console.log('newsItem:', newsItem);
-		innerHTML += '<div class="sub-heading">\n<h2><a href="' + newsItem.linkField + '">' + newsItem.titleField + '</a></h2></div>\n';
-		innerHTML += '<p>' + newsItem.descriptionField + '</p>';
+		innerHTML += '<div class="person-container">';
+		innerHTML += 	'<div class="sub-heading-container"><a href="' + newsItem.linkField + '">' + newsItem.titleField + '</a></div>\n';
+		innerHTML += 	'<div class="profile-container"><p>' + newsItem.descriptionField + '</p></div>';
+		innerHTML += '</div>';
+		innerHTML += '<div class="spacer"></div>';
 	}
 	
 	var dynamicContent = getDynamicContentOfSection(section.notices)
