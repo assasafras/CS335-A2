@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
+	<!-- This site can also be viewed at www.someplaceonthenet.com -->
 		<meta charset='utf-8'>
 		<title>Some Webpage</title>
 		<link rel='stylesheet' href='style.css'/>
@@ -11,7 +12,7 @@
 	</head>
 	<body>
 		<header id='header'>
-			<img class='logo' src='logo.svg'/>
+			<img class='logo' src='http://redsox.tcs.auckland.ac.nz/ups/logo.svg'/>
 			<nav>
 				<span class="nav-link">Home</span>
 				<span class="nav-link">Courses</span>
@@ -37,7 +38,6 @@
 			<h1>Home</h1>
 			<div class='staticContent'>
 				<p>Welcome to New Zealand's leading computer science department. We pride ourselves on the excellence of our staff and our students.</p>
-				<div><img src='home.jpg'/></div>
 			</div>
 		</section>
 		
@@ -64,15 +64,17 @@
 		<section id='sectionGuestBook'>
 			<h1>Guest Book</h1>
 			<div class='staticContent'>
-				<form class="form-comment">
+				<div class="form-comment">
 					<div>
-						<textarea id="post-content" onclick="handleTextBoxClicked('post-content', 'Type your post here!')">Type your post here!</textarea>
+						<textarea id="post-content" onclick="handleTextBoxClicked('post-content', 'Type your post here!')"
+							onblur="handleBlur('post-content', 'Type your post here!')">Type your post here!</textarea>
 					</div>
 					<div>
-						<input value="Name" id="post-name" type="text" onclick="handleTextBoxClicked('post-name', 'Name')">
+						<input value="Name" id="post-name" type="text" 
+							onclick="handleTextBoxClicked('post-name', 'Name')" onblur="handleBlur('post-name', 'Name')">
 					</div>
-					<button class="submit-button" type="button" onclick="postComment()">Post!</button>
-				</form>
+					<button id="submit-button" type="button" onclick="postComment()">Post!</button>
+				</div>
 			</div>
 			<div class='dynamicContent'></div>
 		</section>

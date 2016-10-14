@@ -37,12 +37,23 @@ redsoxService =
 	version 	 : new service('version', 'GET' )
 }
 
+function handleBlur(elementID, defaultText)
+{
+	var target = document.getElementById(elementID);
+	if (target.value === "")
+	{
+		target.value = defaultText;
+		target.style.color = "#CCCCCC";
+	}
+}
+
 function handleTextBoxClicked(elementID, defaultText)
 {
 	var target = document.getElementById(elementID);
 	if (target.value.toLowerCase() === defaultText.toLowerCase())
 	{
 		target.value = "";
+		target.style.color = "#000000";
 	}
 }
 
@@ -63,8 +74,9 @@ function processCourses(responseText)
 	var responseObject = JSON.parse(responseText);
 	var innerHTML = '';
 	var coursePaperSection = responseObject.courses.coursePaperSection;
-	for (course of coursePaperSection)
+	for (var i = 0; i < coursePaperSection.length; i++)
 	{
+		var course = coursePaperSection[i];
 		var prereq = course.prerequisite;
 		var title = course.subject.courseA;
 		title += (course.title === '') ? '' : ' - ' + course.title;
@@ -101,10 +113,14 @@ function processPeople(responseText)
 	console.log(people);
 	 var innerHTML = '';
 	// var coursePaperSection = responseObject.courses.coursePaperSection;
-	for (person of people)
+	for (var i = 0; i < people.length; i++)
 	{
+		var person = people[i];
 		var fullname = person.firstname + ' ' + person.lastname;
 		var fullTitle = (person.title == undefined) ? fullname : person.title + " " + fullname;
+		var jobTitle = person.jobtitles[0];
+		if(jobTitle != undefined)
+			fullTitle += ' | ' + jobTitle;
 		var email = person.emailAddresses[0];
 		var imageID = person.imageId;
 		var profileURL = person.profileUrl[0];
@@ -139,21 +155,30 @@ function processPeople(responseText)
 function postComment()
 {
 	console.log("posting comment!");
+	var postButtonElement = document.getElementById('submit-button');
+	postButtonElement.innerHTML = "Posting...";
+	
 	var postContentElement = document.getElementById('post-content');
 	var post = '"' + postContentElement.value + '"';
-	// Clear the text box;
-	postContentElement.value = "";
+	// Clear the comment text box.
+	postContentElement.value = "Type your post here!";
 	// Don't post if the user hasn't input anything.
 	if (post == '""') return;
-	var username = document.getElementById('post-name').value;
+	
+	var postNameElement = document.getElementById('post-name');
+	var username = postNameElement.value;
 	username = username.replace(" ", "+");
-	if (username === "") username = "anonymous"
+	// Clear the name text box.
+	postNameElement.value = "Name";
+	
+	// Create and send the HTTP Request.
 	var xhr = new XMLHttpRequest();
 	xhr.open("POST", redsoxService.comment.getQualifiedURL(username), true);
-	xhr.onload = function() {
-		
-		// Refresh the guest book page.
+	xhr.onload = function() 
+	{
+		// Refresh the guest book section once the comment has succesfully gone up.
 		populateGuestBook();
+		postButtonElement.innerHTML = "Post";
 	};
 	xhr.setRequestHeader('content-type', 'application/json');
 	xhr.send(post);
@@ -165,23 +190,20 @@ function makeRequestNews()
 	console.log(uri);
 	xhr = new XMLHttpRequest();
 	xhr.open(this.method, uri, true);
+	xhr.setRequestHeader('accept', 'application/json');
 	xhr.onload = function() {
-		processNews(xhr.responseXML);
+		processNews(xhr.responseText);
 	};
 	xhr.send(null);
 }
 
-function processNews(responseXML)
+function processNews(responseText)
 {
 	var innerHTML = '';
-	var RSSItems = responseXML.documentElement.childNodes;
-	for (RSSItem of RSSItems)
+	var RSSItems = JSON.parse(responseText);
+	for (var i = 0; i < RSSItems.length; i++)
 	{
-		var newsItem = {};
-		for(field of RSSItem.children)
-		{
-			newsItem[field.nodeName] = field.innerHTML;
-		}
+		var newsItem = RSSItems[i];
 		console.log('newsItem:', newsItem);
 		innerHTML += '<div class="person-container">';
 		innerHTML += 	'<div class="sub-heading-container"><a class="heading-link" href="' + newsItem.linkField + '">' + newsItem.titleField + '</a></div>\n';
@@ -220,27 +242,24 @@ function makeRequestNotices()
 	console.log(uri);
 	xhr = new XMLHttpRequest();
 	xhr.open(this.method, uri, true);
+	xhr.setRequestHeader('accept', 'application/json');
 	xhr.onload = function() {
-		processNotices(xhr.responseXML);
+		processNotices(xhr.responseText);
 	};
 	xhr.send(null);
 }
 
-function processNotices(responseXML)
+function processNotices(responseText)
 {
 	var innerHTML = '';
-	var RSSItems = responseXML.documentElement.childNodes;
-	for (RSSItem of RSSItems)
+	var RSSItems = JSON.parse(responseText);
+	for (var i = 0; i < RSSItems.length; i++)
 	{
-		var newsItem = {};
-		for(field of RSSItem.children)
-		{
-			newsItem[field.nodeName] = field.innerHTML;
-		}
-		console.log('newsItem:', newsItem);
+		var noticeItem = RSSItems[i];
+		console.log('noticeItem:', noticeItem);
 		innerHTML += '<div class="person-container">';
-		innerHTML += 	'<div class="sub-heading-container"><a class="heading-link" href="' + newsItem.linkField + '">' + newsItem.titleField + '</a></div>\n';
-		innerHTML += 	'<div class="profile-container"><p class="item-paragraph">' + newsItem.descriptionField + '</p></div>';
+		innerHTML += 	'<div class="sub-heading-container"><a class="heading-link" href="' + noticeItem.linkField + '">' + noticeItem.titleField + '</a></div>\n';
+		innerHTML += 	'<div class="profile-container"><p class="item-paragraph">' + noticeItem.descriptionField + '</p></div>';
 		innerHTML += '</div>';
 		innerHTML += '<div class="spacer"></div>';
 	}
@@ -254,17 +273,18 @@ function onWindowLoaded()
 	// get all the nav links.
 	var navLinks = document.getElementsByClassName("nav-link");
 	// Add click listener to each of the nav links.
-	for(link of navLinks)
+	for(var i = 0; i < navLinks.length; i++)
 	{
-		link.onmouseup    = link_handleClick;
-		link.onmouseenter = function () { this.style.backgroundColor = colours.hover; };
-		link.onmouseleave = function () { this.style.backgroundColor = colours.none; };
-		link.onmousedown  = function () { this.style.backgroundColor = colours.down; };
+		var lnk = navLinks[i];
+		lnk.onmouseup    = link_handleClick;
+		lnk.onmouseenter = function () { this.style.backgroundColor = colours.hover; };
+		lnk.onmouseleave = function () { this.style.backgroundColor = colours.none; };
+		lnk.onmousedown  = function () { this.style.backgroundColor = colours.down; };
 	}
 	
 	document.getElementById('slimMenu').onmouseup = toggleSlimMenuItemsVisibility;
 	
-	if(window.innerWidth < 808)
+	if(window.innerWidth < 826 || screen.width < 826)
 		slimModeOn();
 	else slimModeOff();
 	
@@ -284,7 +304,8 @@ function toggleSlimMenuItemsVisibility()
 
 function window_handleResize()
 {
-	if(window.innerWidth < 808)
+	console.log(screen, window);
+	if(window.innerWidth < 826 || screen.width < 826)
 	{
 		if(!isSlimMode) 
 		{
@@ -321,9 +342,11 @@ function link_handleClick()
 	// get all sections.
 	var sections = document.querySelectorAll('section');
 	// Hide them.
-	for(s of sections)
+	for(var i = 0; i < sections.length; i++)
+	{
+		var s = sections[i];
 		s.style.display = 'none';
-	
+	}
 	// Show the specific element.
 	var name = this.innerHTML;
 	// Deal with the 'Guest Book' --> id(GuestBook) case.
@@ -345,8 +368,8 @@ function clearAllDynamicContent()
 {
 	var contents = document.getElementsByClassName('dynamicContent');
 	
-	for(c of contents)
-		c.innerHTML = '';
+	for(var i = 0; i < contents.length; i++)
+		contents[i].innerHTML = '';
 }
 
 function populateSection(sectionName)

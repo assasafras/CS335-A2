@@ -16,7 +16,7 @@
 
 .profile-container
 {
-	background-color: lightgray;
+	background-color: #EEE;
 	/* border-left: 1px #104284 solid;
 	border-right: 1px #104284 solid;
 	border-top: 1px lightgray solid; */
@@ -28,17 +28,20 @@
 }
 #post-content
 {
-	width: 30%;
+	width: 15rem;
 	height: 5rem;
 	font-family: helvetica;
+	color: #CCCCCC;
+    resize: none;
 }
 #post-name
 {
-	width: 30.3%;
+	width: 15.1rem;
+	color: #CCCCCC;
 }
 #header
 {
-	position: absolute;
+	position: fixed;
 	top: 0;
 	left: 0;
 	right: 0;
@@ -124,7 +127,7 @@ nav
 	padding: 0 1rem;
 }
 
-.submit-button
+#submit-button
 {
 	height: 2rem;
     width: 6rem;

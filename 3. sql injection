@@ -1,0 +1,8 @@
+POST http://localhost:8188/UniProxService.svc/comment?name=malicious HTTP/1.1
+User-Agent: Fiddler
+Content-Length: 36
+Content-Type: application/json
+Accept: */*
+Host: localhost:8188
+
+"something'); delete from comments;"

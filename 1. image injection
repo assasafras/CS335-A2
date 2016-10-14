@@ -1,0 +1,8 @@
+POST http://localhost:8188/UniProxService.svc/comment?name=malicious HTTP/1.1
+User-Agent: Fiddler
+Content-Length: 36
+Content-Type: application/json
+Accept: */*
+Host: localhost:8188
+
+"<img src=\"https://ykyuen.files.wordpress.com/2014/03/cropped-wpid-20140331_142445.jpg\">hahaha!"
