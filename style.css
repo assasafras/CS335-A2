@@ -6,7 +6,7 @@
 
 .spacer
 {
-	height: 3rem;
+	height: 2rem;
 }
 
 .profile-details
@@ -34,7 +34,7 @@
 }
 #post-name
 {
-	width: 30%;
+	width: 30.3%;
 }
 #header
 {
@@ -124,9 +124,28 @@ nav
 	padding: 0 1rem;
 }
 
+.submit-button
+{
+	height: 2rem;
+    width: 6rem;
+    margin-top: 1rem;
+    padding: 0rem 2rem;
+    background: #104284;
+    cursor: pointer;
+    font-family: Helvetica;
+    color: white;
+	border: 0px;
+}
+
 .heading-link
 {
 	color: white;
+	padding-left: 10px;
+}
+
+.item-paragraph
+{
+	padding-left: 10px;
 }
 
 .sub-heading-container

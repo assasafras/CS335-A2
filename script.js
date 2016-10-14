@@ -68,11 +68,16 @@ function processCourses(responseText)
 		var prereq = course.prerequisite;
 		var title = course.subject.courseA;
 		title += (course.title === '') ? '' : ' - ' + course.title;
-		innerHTML += '<h2>' + title + '</h2>\n';
-		innerHTML += '<p>' + course.description + '</p>\n';
-		innerHTML += '<p>' + course.subject.points + '</p>\n';
+		
+		innerHTML += 	'<div class="sub-heading-container">' + title + '</div>';
+		innerHTML += 	'<div class="profile-container">'
+		innerHTML += 		'<p class="item-paragraph">' + course.description + '</p>';
+		innerHTML += 		'<p class="item-paragraph">' + course.subject.points + '</p>';
 		if(course.prerequisite !== undefined)
-			innerHTML += '<p>' + course.prerequisite + '</p>\n';
+			innerHTML += 	'<p class="item-paragraph">' + course.prerequisite + '</p>';
+		innerHTML += 	'</div>';
+		innerHTML += '</div>';
+		innerHTML += '<div class="spacer"></div>';
 	}
 	var dynamicContent = getDynamicContentOfSection(section.courses)
 	dynamicContent.innerHTML = innerHTML;
@@ -101,17 +106,25 @@ function processPeople(responseText)
 		var fullname = person.firstname + ' ' + person.lastname;
 		var fullTitle = (person.title == undefined) ? fullname : person.title + " " + fullname;
 		var email = person.emailAddresses[0];
-		
 		var imageID = person.imageId;
+		var profileURL = person.profileUrl[0];
 		if (imageID != undefined)
-			imageURL = 'https://www.cs.auckland.ac.nz/people/imageraw/' + person.profileUrl[0] + '/' + person.imageId + '/smallest';
+			imageURL = 'https://www.cs.auckland.ac.nz/people/imageraw/' + profileURL + '/' + imageID + '/smallest';
 		else
-			imageURL = 'https://www.cs.auckland.ac.nz/static/g5Km3OjLZuWCA8w7PdOyS4j603aTN0QC7X2gk6kRhEs.png'
-		innerHTML += '<div class="person-container">'
-		innerHTML += 	'<div class="sub-heading-container">' + fullTitle + '</div>\n';
-		innerHTML += 	'<div class="profile-container">'
-		innerHTML += 		'<div class="profile-image"><img src=' + imageURL + '>'+ '</div>\n';
-		innerHTML += 		'<div class="profile-details"><p>Phone: ' + person.extn + '</p><p>Email: <a href="mailto:' + email + '">' + email + '</a></p></div>'
+			imageURL = 'https://www.cs.auckland.ac.nz/people/imageraw/no-person/0/small';
+		
+		innerHTML += '<div class="person-container">';
+		innerHTML += 	'<div class="sub-heading-container">' + fullTitle + '</div>';
+		innerHTML += 	'<div class="profile-container">';
+		innerHTML += 		'<div class="profile-image"><img width="100px" height="100px" src=' + imageURL + '>'+ '</div>';
+		innerHTML += 		'<div class="profile-details">';
+		if (person.extn != undefined)
+			innerHTML +=		'<p><span style="font-size: larger">&#9742;</span>' + person.extn + '</p>';
+		else 
+			innerHTML += 		'<p></p>';
+		innerHTML += 			'<p><span style="font-size:larger">&#9993;</span> <a href="mailto:' + email + '">' + email + '</a></p>';
+		innerHTML += 			'<p><span style="font-size:larger">&#128450;</span> <a href="http://redsox.tcs.auckland.ac.nz/ups/UniProxService.svc/vcard?u=' + profileURL + '">Save to contacts</a></p>';
+		innerHTML += 		'</div>'
 		innerHTML += 	'</div>'
 		innerHTML += '</div>'
 		innerHTML += '<div class="spacer"></div>'
@@ -172,7 +185,7 @@ function processNews(responseXML)
 		console.log('newsItem:', newsItem);
 		innerHTML += '<div class="person-container">';
 		innerHTML += 	'<div class="sub-heading-container"><a class="heading-link" href="' + newsItem.linkField + '">' + newsItem.titleField + '</a></div>\n';
-		innerHTML += 	'<div class="profile-container"><p>' + newsItem.descriptionField + '</p></div>';
+		innerHTML += 	'<div class="profile-container"><p class="item-paragraph">' + newsItem.descriptionField + '</p></div>';
 		innerHTML += '</div>';
 		innerHTML += '<div class="spacer"></div>';
 	}
@@ -227,7 +240,7 @@ function processNotices(responseXML)
 		console.log('newsItem:', newsItem);
 		innerHTML += '<div class="person-container">';
 		innerHTML += 	'<div class="sub-heading-container"><a class="heading-link" href="' + newsItem.linkField + '">' + newsItem.titleField + '</a></div>\n';
-		innerHTML += 	'<div class="profile-container"><p>' + newsItem.descriptionField + '</p></div>';
+		innerHTML += 	'<div class="profile-container"><p class="item-paragraph">' + newsItem.descriptionField + '</p></div>';
 		innerHTML += '</div>';
 		innerHTML += '<div class="spacer"></div>';
 	}
@@ -397,7 +410,7 @@ function populatePeople()
 	
 	redsoxService.people.makeRequest();
 	
-	dynamicContent.innerHTML = '<p>Some content about people!</p><p>'+Math.random()*10000+'</p>';
+	dynamicContent.innerHTML = '<p>Loading content about people...</p>';
 	
 }
 
